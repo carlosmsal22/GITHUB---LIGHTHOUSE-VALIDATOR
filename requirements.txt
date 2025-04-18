@@ -9,3 +9,4 @@ imagehash
 jinja2
 python-multipart
 opencv-python
+matplotlib
