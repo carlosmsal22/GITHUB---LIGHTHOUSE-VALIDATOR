@@ -1,1 +1,0 @@
-# Placeholder for validate_image_all logic
