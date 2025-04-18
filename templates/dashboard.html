@@ -1,1 +1,33 @@
-<html><head><title>Dashboard</title><link rel='icon' href='/static/favicon.ico'></head><body><h1>SA Market Insights Dashboard</h1><footer>Powered by SA Market Insights | © 2025 All rights reserved</footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SA Market Insights Dashboard</title>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+    <header class="bg-white shadow flex items-center justify-between p-4">
+        <div class="flex items-center space-x-3">
+            <img src="/static/favicon.ico" alt="Logo" class="h-10 w-10 rounded-full">
+            <span class="text-xl font-bold text-blue-800">SA Market Insights</span>
+        </div>
+        <nav class="space-x-4">
+            <a href="/" class="text-blue-600 hover:underline">Home</a>
+            <a href="/dashboard?password=your-password" class="text-blue-600 hover:underline">Dashboard</a>
+            <a href="/validate-image" class="text-blue-600 hover:underline">Validate Image</a>
+        </nav>
+    </header>
+
+    <main class="p-6">
+        <h1 class="text-2xl font-semibold mb-4">Image Validation Dashboard</h1>
+        <div id="chart-validation" class="mb-8"></div>
+        <div id="chart-geo"></div>
+    </main>
+
+    <footer class="bg-white mt-10 p-4 text-center text-sm text-gray-500 border-t">
+        Powered by SA Market Insights | © 2025 All rights reserved
+    </footer>
+</body>
+</html>
