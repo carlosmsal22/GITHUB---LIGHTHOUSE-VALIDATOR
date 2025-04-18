@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+httpx
+plotly
+pandas
+open_clip_torch
+transformers
+imagehash
+jinja2
+python-multipart
+sqlite-utils
