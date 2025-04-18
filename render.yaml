@@ -1,10 +1,9 @@
+
 services:
   - type: web
-    name: lighthouse-validator
+    name: github-lighthouse-validator
     envVars:
       - key: DASHBOARD_PASSWORD
-        value: your-password-here
-      - key: LIGHTHOUSE_API_KEY
-        value: your-lighthouse-key
+        value: your-password
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
