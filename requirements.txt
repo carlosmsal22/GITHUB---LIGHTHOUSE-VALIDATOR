@@ -1,6 +1,10 @@
-numpy==1.24.4
-opencv-python==4.9.0.80
-tensorflow==2.16.1
-keras==3.0.5
-matplotlib==3.8.3
+fastapi
 uvicorn
+httpx
+plotly
+pandas
+open_clip_torch
+transformers
+imagehash
+jinja2
+python-multipart
