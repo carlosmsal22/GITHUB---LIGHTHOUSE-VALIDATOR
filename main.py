@@ -19,7 +19,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 # Load CLIP model once
-clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
+clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").cpu()
 clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
 PROMPTS = ["person cleaning", "vacuuming", "household task", "cleaning a room"]
@@ -54,19 +54,17 @@ async def validate_image(request: Request):
     ip = request.client.host
 
     # Step 1: Download image
-   try:
-    response = requests.get(media_url, headers={"User-Agent": "Mozilla/5.0"})
-    img = PIL.Image.open(io.BytesIO(response.content)).convert("RGB")
-except Exception as e:
-    return {
-        "valid": False,
-        "reasons": ["Could not download image"],
-        "error": str(e)
-    }
-
+    try:
+        response = requests.get(media_url, headers={"User-Agent": "Mozilla/5.0"})
+        img = PIL.Image.open(io.BytesIO(response.content)).convert("RGB")
     except Exception as e:
-        return {"valid": False, "reasons": ["Could not download image"], "error": str(e)}
+        return {
+            "valid": False,
+            "reasons": ["Could not download image"],
+            "error": str(e)
+        }
 
+    # Step 2: AI validation
     reasons = []
     score, matched_prompt = check_clip_relevance(img)
     if score < 0.30:
@@ -75,10 +73,9 @@ except Exception as e:
     if is_blurry(img):
         reasons.append("Image is blurry")
 
-    # Placeholder hash database (no duplicate detection yet)
     phash_val = str(imagehash.phash(img))
 
-    # Geo lookup
+    # Step 3: Geo lookup
     geo = {}
     try:
         geo_resp = requests.get(f"http://ip-api.com/json/{ip}").json()
@@ -86,7 +83,7 @@ except Exception as e:
     except:
         pass
 
-    # Store log
+    # Step 4: Store log
     conn = sqlite3.connect("logs.db")
     conn.execute("""CREATE TABLE IF NOT EXISTS logs (
         id INTEGER PRIMARY KEY,
@@ -100,7 +97,7 @@ except Exception as e:
         reasons TEXT
     )""")
     conn.execute("INSERT INTO logs (respondent, ip, country, region, valid, clip_score, phash, reasons) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                 (respondent_id, ip, geo.get("country"), geo.get("region"), int(len(reasons)==0), score, phash_val, ", ".join(reasons)))
+                 (respondent_id, ip, geo.get("country"), geo.get("region"), int(len(reasons) == 0), score, phash_val, ", ".join(reasons)))
     conn.commit()
     conn.close()
 
