@@ -55,8 +55,9 @@ async def validate_image(request: Request):
 
     # Step 1: Download image
     try:
-        response = requests.get(media_url)
-        img = PIL.Image.open(io.BytesIO(response.content)).convert("RGB")
+        response = requests.get(media_url, headers={"User-Agent": "Mozilla/5.0"})
+img = PIL.Image.open(io.BytesIO(response.content)).convert("RGB")
+
     except Exception as e:
         return {"valid": False, "reasons": ["Could not download image"], "error": str(e)}
 
