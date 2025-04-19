@@ -64,7 +64,6 @@ except Exception as e:
         "error": str(e)
     }
 
-
     except Exception as e:
         return {"valid": False, "reasons": ["Could not download image"], "error": str(e)}
 
